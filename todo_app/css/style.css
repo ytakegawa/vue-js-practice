@@ -1,0 +1,43 @@
+body {
+  font-size: 16px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.container {
+  width: 300px;
+  margin: auto;
+}
+
+.command {
+  cursor: pointer;
+}
+
+#app h1 {
+  font-size: 16px;
+  border-bottom: 1px solid #ddd;
+  padding: 1em;
+}
+
+#app li {
+  line-height: 1.5;
+}
+
+#app input [type="text"] {
+  padding: 2px;
+}
+
+#app ul {
+  padding: 0;
+  list-style: none;
+}
+
+#app li>span.done {
+  text-decoration: line-through;
+  color: #bbb;
+}
+
+.info {
+  color: #bbb;
+  font-size: 12px;
+  font-weight: normal;
+}
