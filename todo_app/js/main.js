@@ -22,10 +22,17 @@
       addItem: function () {
         const item = {
           title: this.newItem,
-          isDone: false
+          isDone: false,
+          editFlag: false
         }
         this.todos.push(item)
         this.newItem = ''
+      },
+      editStart: function (index) {
+        this.todos[index].editFlag = true
+      },
+      editFinish: function (index) {
+        this.todos[index].editFlag = false
       },
       deleteItem: function (index) {
         if (confirm('are you sure?')) {
