@@ -16,7 +16,7 @@
       <span class="info">({{ remaining.length }} / {{ todos.length }})</span>
     </h1>
     <ul>
-      <li v-for="(todo, index) in todos" :key="todo">
+      <li v-for="(todo, index) in todos" :key="todo.title">
         <input type="checkbox" v-model="todo.isDone">
         <span :class="{done: todo.isDone}">{{ todo.title }}</span>
         <span v-if="!todo.isDone" @click="editStart(index)" class="command">[edit]</span>
