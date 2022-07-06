@@ -4,32 +4,39 @@
   <ul>
     <li v-for="memo in memos" :key="memo.title">
       <span >{{ memo.title }}</span>
-      <span @click="toggleMemoDetailModal" class="command" name="memo.title">[DETAIL]</span>
+      <span @click="toggleMemoDetailModal()" class="command">[DETAIL]</span>
       <!-- <div v-if="showMemoDetailModal">
-      <MemoDetailModal>
+        <MemoDetailModal :title="memo.title" :body="memo.body">
         <h1>MEMO DETAIL</h1>
         <p>SHOW? EDIT? DELETE?</p>
         <p>TITLE</p>
-        <input type="text" v-model="momo.title" >
+        <input type="text" value="title">
         <p>CONTENT</p>
-        <textarea v-model="momo.body">{{ memo.body }}</textarea>
+        <textarea></textarea>
         <br>
         <button @click.prevent="editMemo()">EDIT DONE</button>
-      </MemoDetailModal>
+        </MemoDetailModal>
       </div> -->
     </li>
   </ul>
   <div v-if="showNewMemoModal">
-      <NewMemoModal>
-        <h1>ADD NEW MEMO</h1>
-        <p>INPUT MEMO DETAIL</p>
-        <p>TITLE</p>
-        <input type="text" v-model="newTitle">
-        <p>CONTENT</p>
-        <textarea v-model="newBody"></textarea>
+      <NewMemoModal :memos="memos" @close="toggleNewMemoModal" />
+  </div>
+
+  <div v-if="showMemoDetailModal">
+      <MemoDetailModal :memos="memos" @close="toggleMemoDetailModal" @detail="toggleMemoDetailFlag" />
+        <!-- <div v-for="memo in memos" :key="memo.title">
+          <h1>MEMO DETAIL</h1>
+          <p>SHOW? EDIT? DELETE?</p>
+          <p>TITLE</p>
+          <input type="text" :value="memo.title">
+          <p>CONTENT</p>
+          <textarea>{{ memo.body }}</textarea>
+        </div>
+
         <br>
-        <button @click.prevent="addMemo()">FINISH</button>
-      </NewMemoModal>
+        <button @click.prevent="editMemo()">EDIT DONE</button> -->
+      <!-- </MemoDetailModal> -->
   </div>
 
 </template>
@@ -43,9 +50,11 @@ export default {
   components: { NewMemoModal, MemoDetailModal },
   data() {
     return {
-      newTitle: '',
-      newBody: '',
+      // newTitle: '',
+      // newBody: '',
       memos: [],
+      // selectMemoTitle: this.memo.title,
+      // selectMemoBody: this.memo.body,
       showNewMemoModal: false,
       showMemoDetailModal: false
     }
@@ -68,16 +77,27 @@ export default {
     toggleMemoDetailModal(){
       this.showMemoDetailModal = !this.showMemoDetailModal
     },
-    addMemo: function () {
-        const memo = {
-          title: this.newTitle,
-          body: this.newBody,
+          // this.memos[index].detailFlag = !this.memos[index].detailFlag
+      // this.memos.map( memo => memo.detailFlag = false)
+    toggleMemoDetailFlag(){
+      this.memos.map( memo => memo.detailFlag = false)
+    }
+    // addMemo: function () {
+    //     const memo = {
+    //       title: this.newTitle,
+    //       body: this.newBody,
+    //       detailFlag: false
 
-        }
-        this.memos.push(memo)
-        this.newTitle = ''
-        this.newBody = ''
-      },
+    //     }
+    //     this.memos.push(memo)
+    //     this.newTitle = ''
+    //     this.newBody = ''
+    //   },
+  },
+  computed: {
+    matchMemoData: function(){
+
+    }
   }
 }
 </script>
@@ -103,6 +123,7 @@ export default {
 }
 
 .command {
+  font-size: 9px;
   cursor: pointer;
 }
 

@@ -1,17 +1,43 @@
 <template>
   <div class="backdrops" >
     <div class="modal" >
-      <slot></slot>
+      <h1>ADD NEW MEMO</h1>
+      <p>INPUT MEMO DETAIL</p>
+      <p>TITLE</p>
+      <input type="text" v-model="newTitle">
+      <p>CONTENT</p>
+      <textarea v-model="newBody"></textarea>
+      <br>
+      <button @click.prevent="addMemo()">FINISH</button>
+      <button @click="closeModal">CLOSE</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['memos'],
+  data() {
+    return {
+      newTitle: '',
+      newBody: '',
+    }
+  },
   methods: {
     closeModal(){
       this.$emit('close')
-    }
+    },
+    addMemo: function () {
+      const memo = {
+        title: this.newTitle,
+        body: this.newBody,
+        detailFlag: false
+
+      }
+      this.memos.push(memo)
+      this.newTitle = ''
+      this.newBody = ''
+    },
   }
 }
 </script>
