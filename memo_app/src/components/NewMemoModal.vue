@@ -8,15 +8,18 @@
       <p>CONTENT</p>
       <textarea v-model="newBody"></textarea>
       <br>
-      <button @click.prevent="addMemo()">FINISH</button>
-      <button @click="closeModal">CLOSE</button>
+      <button @click.prevent="$_NewMemoModal_addMemo()">FINISH</button>
+      <button @click="$_NewMemoModal_closeModal">CLOSE</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['memos'],
+  name: 'NewMemoModal',
+  props: {
+    memos: Array
+  },
   data() {
     return {
       newTitle: '',
@@ -24,19 +27,19 @@ export default {
     }
   },
   methods: {
-    closeModal(){
+    $_NewMemoModal_closeModal(){
       this.$emit('close')
     },
-    addMemo: function () {
+    $_NewMemoModal_addMemo() {
       const memo = {
         title: this.newTitle,
         body: this.newBody,
-        detailFlag: false
-
+        detailFlag: false,
       }
       this.memos.push(memo)
       this.newTitle = ''
       this.newBody = ''
+      this.$emit('close')
     },
   }
 }
@@ -63,6 +66,5 @@ export default {
   .modal h1 {
     color:black;
   }
-
 
 </style>

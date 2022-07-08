@@ -3,48 +3,44 @@
     <div class="modal">
       <h1>MEMO DETAIL</h1>
       <p>SHOW? EDIT? DELETE?</p>
+      <button @click="$_MemoDetailModal_deleteMemo">DELETE</button>
       <p>TITLE</p>
-      <input type="text" :value="selectedMemo().title">
+      <input type="text" v-model="memo.title" >
       <p>CONTENT</p>
-      <textarea>{{ selectedMemo().body }}</textarea>
+      <textarea v-model="memo.body">{{ memo.body }}</textarea>
       <br>
-      <button @click.prevent="editFinish(index)">EDIT FINISH</button>
-      <button @click="closeModal">CLOSE</button>
+      <button @click="$_MemoDetailModal_closeModal">CLOSE</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['memos'],
+  name: 'MemoDetailModal',
+  props: {
+    memos: Array
+  },
   data() {
     return {
-      // selectMemoTitle: selectedMemo().title,
-      // selectMemoBody: selectedMemo().body
+      memo: this.memos.find((memo) => memo.detailFlag === true)
     }
   },
   methods: {
-    selectedMemo(){
-      const selectMemo = this.memos.find(memo => memo.detailFlag = true)
-      return selectMemo
-    },
-    editFinish: function (index) {
-      this.memos[index].detailFlag = false
-    },
-    closeModal(){
-      this.$emit('close')
+    $_MemoDetailModal_closeModal(){
       this.$emit('detail')
+      this.$emit('close')
+    },
+    $_MemoDetailModal_deleteMemo(){
+      if (!confirm('delete finished?')) {
+        return
+      }
+      const newMemos = this.memos.filter((m) => m !== this.memo)
+      this.$emit('delete', newMemos)
+      this.$emit('close')
     }
-  },
-  // computed: {
-  //   selectedMemo(){
-  //     const selectMemo = this.memos.find(memo => memo.detailFlag = true)
-  //     return selectMemo
-  //   }
-  // }
+  }
 }
 </script>
-
 
 <style scoped>
   .modal {
@@ -66,6 +62,4 @@ export default {
   .modal h1 {
     color:black;
   }
-
-
 </style>

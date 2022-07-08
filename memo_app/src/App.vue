@@ -2,43 +2,23 @@
   <h1>MY MEMO APP</h1>
   <button @click="toggleNewMemoModal">ADD MEMO</button>
   <ul>
-    <li v-for="memo in memos" :key="memo.title">
+    <li v-for="(memo, index) in memos" :key="memo.title">
       <span >{{ memo.title }}</span>
-      <span @click="toggleMemoDetailModal()" class="command">[DETAIL]</span>
-      <!-- <div v-if="showMemoDetailModal">
-        <MemoDetailModal :title="memo.title" :body="memo.body">
-        <h1>MEMO DETAIL</h1>
-        <p>SHOW? EDIT? DELETE?</p>
-        <p>TITLE</p>
-        <input type="text" value="title">
-        <p>CONTENT</p>
-        <textarea></textarea>
-        <br>
-        <button @click.prevent="editMemo()">EDIT DONE</button>
-        </MemoDetailModal>
-      </div> -->
+      <span @click="toggleMemoDetailModal(index)" class="command">[DETAIL]</span>
     </li>
   </ul>
   <div v-if="showNewMemoModal">
-      <NewMemoModal :memos="memos" @close="toggleNewMemoModal" />
+      <NewMemoModal :memos="memos"
+        @close="toggleNewMemoModal"
+      />
   </div>
-
   <div v-if="showMemoDetailModal">
-      <MemoDetailModal :memos="memos" @close="toggleMemoDetailModal" @detail="toggleMemoDetailFlag" />
-        <!-- <div v-for="memo in memos" :key="memo.title">
-          <h1>MEMO DETAIL</h1>
-          <p>SHOW? EDIT? DELETE?</p>
-          <p>TITLE</p>
-          <input type="text" :value="memo.title">
-          <p>CONTENT</p>
-          <textarea>{{ memo.body }}</textarea>
-        </div>
-
-        <br>
-        <button @click.prevent="editMemo()">EDIT DONE</button> -->
-      <!-- </MemoDetailModal> -->
+      <MemoDetailModal :memos="memos"
+        @close="toggleMemoDetailModal"
+        @detail="MemoDetailFlagOff"
+        @delete="updatedMemos"
+      />
   </div>
-
 </template>
 
 <script>
@@ -50,11 +30,7 @@ export default {
   components: { NewMemoModal, MemoDetailModal },
   data() {
     return {
-      // newTitle: '',
-      // newBody: '',
       memos: [],
-      // selectMemoTitle: this.memo.title,
-      // selectMemoBody: this.memo.body,
       showNewMemoModal: false,
       showMemoDetailModal: false
     }
@@ -74,29 +50,15 @@ export default {
     toggleNewMemoModal(){
       this.showNewMemoModal = !this.showNewMemoModal
     },
-    toggleMemoDetailModal(){
+    toggleMemoDetailModal(index){
       this.showMemoDetailModal = !this.showMemoDetailModal
+      this.memos[index].detailFlag = true
     },
-          // this.memos[index].detailFlag = !this.memos[index].detailFlag
-      // this.memos.map( memo => memo.detailFlag = false)
-    toggleMemoDetailFlag(){
+    MemoDetailFlagOff(){
       this.memos.map( memo => memo.detailFlag = false)
-    }
-    // addMemo: function () {
-    //     const memo = {
-    //       title: this.newTitle,
-    //       body: this.newBody,
-    //       detailFlag: false
-
-    //     }
-    //     this.memos.push(memo)
-    //     this.newTitle = ''
-    //     this.newBody = ''
-    //   },
-  },
-  computed: {
-    matchMemoData: function(){
-
+    },
+    updatedMemos(newMemos){
+      this.memos = newMemos
     }
   }
 }
