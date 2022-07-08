@@ -8,16 +8,18 @@
     </li>
   </ul>
   <div v-if="showNewMemoModal">
-      <NewMemoModal :memos="memos"
-        @close="toggleNewMemoModal"
-      />
+    <NewMemoModal
+      :memos="memos"
+      @close="toggleNewMemoModal"
+    />
   </div>
   <div v-if="showMemoDetailModal">
-      <MemoDetailModal :memos="memos"
-        @close="toggleMemoDetailModal"
-        @detail="MemoDetailFlagOff"
-        @delete="updatedMemos"
-      />
+    <MemoDetailModal
+      :memos="memos"
+      @close="toggleMemoDetailModal"
+      @detail="MemoDetailFlagOff"
+      @delete="updatedMemos"
+    />
   </div>
 </template>
 
