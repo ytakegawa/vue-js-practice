@@ -17,7 +17,7 @@
     <MemoDetailModal
       :memos="memos"
       @close="toggleMemoDetailModal"
-      @detail="MemoDetailFlagOff"
+      @detail="memoDetailFlagOff"
       @delete="updatedMemos"
     />
   </div>
@@ -56,8 +56,8 @@ export default {
       this.showMemoDetailModal = !this.showMemoDetailModal
       this.memos[index].detailFlag = true
     },
-    MemoDetailFlagOff(){
-      this.memos.map( memo => memo.detailFlag = false)
+    memoDetailFlagOff(){
+      this.memos.forEach( memo => memo.detailFlag = false)
     },
     updatedMemos(newMemos){
       this.memos = newMemos
