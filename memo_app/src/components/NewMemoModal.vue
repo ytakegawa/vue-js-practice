@@ -8,8 +8,8 @@
       <p>CONTENT</p>
       <textarea v-model="newBody"></textarea>
       <br>
-      <button @click.prevent="$_NewMemoModal_addMemo()">FINISH</button>
-      <button @click="$_NewMemoModal_closeModal">CLOSE</button>
+      <button @click.prevent="addMemo()">FINISH</button>
+      <button @click="closeModal">CLOSE</button>
     </div>
   </div>
 </template>
@@ -27,10 +27,10 @@ export default {
     }
   },
   methods: {
-    $_NewMemoModal_closeModal(){
+    closeModal(){
       this.$emit('close')
     },
-    $_NewMemoModal_addMemo() {
+    addMemo() {
       const memo = {
         title: this.newTitle,
         body: this.newBody,

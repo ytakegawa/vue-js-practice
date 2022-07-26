@@ -3,13 +3,13 @@
     <div class="modal">
       <h1>MEMO DETAIL</h1>
       <p>SHOW? EDIT? DELETE?</p>
-      <button @click="$_MemoDetailModal_deleteMemo">DELETE</button>
+      <button @click="deleteMemo">DELETE</button>
       <p>TITLE</p>
       <input type="text" v-model="memo.title" >
       <p>CONTENT</p>
       <textarea v-model="memo.body">{{ memo.body }}</textarea>
       <br>
-      <button @click="$_MemoDetailModal_closeModal">CLOSE</button>
+      <button @click="closeModal">CLOSE</button>
     </div>
   </div>
 </template>
@@ -26,11 +26,11 @@ export default {
     }
   },
   methods: {
-    $_MemoDetailModal_closeModal(){
+    closeModal(){
       this.$emit('detail')
       this.$emit('close')
     },
-    $_MemoDetailModal_deleteMemo(){
+    deleteMemo(){
       if (!confirm('delete finished?')) {
         return
       }
