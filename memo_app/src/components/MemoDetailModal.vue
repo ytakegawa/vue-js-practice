@@ -17,25 +17,17 @@
 <script>
 export default {
   name: 'MemoDetailModal',
-  props: {
-    memos: Array
-  },
-  data() {
-    return {
-      memo: this.memos.find((memo) => memo.detailFlag === true)
-    }
-  },
+  props: ['memo'],
   methods: {
     closeModal(){
       this.$emit('detail')
       this.$emit('close')
     },
     deleteMemo(){
-      if (!confirm('delete finished?')) {
+      if (!confirm('Are you sure (to delete)?')) {
         return
       }
-      const newMemos = this.memos.filter((m) => m !== this.memo)
-      this.$emit('delete', newMemos)
+      this.$emit('delete', this.memo.id)
       this.$emit('close')
     }
   }

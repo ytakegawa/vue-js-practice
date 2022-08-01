@@ -8,7 +8,7 @@
       <p>CONTENT</p>
       <textarea v-model="newBody"></textarea>
       <br>
-      <button @click.prevent="addMemo()">FINISH</button>
+      <button @click.prevent="createMemo()">FINISH</button>
       <button @click="closeModal">CLOSE</button>
     </div>
   </div>
@@ -17,9 +17,6 @@
 <script>
 export default {
   name: 'NewMemoModal',
-  props: {
-    memos: Array
-  },
   data() {
     return {
       newTitle: '',
@@ -30,17 +27,17 @@ export default {
     closeModal(){
       this.$emit('close')
     },
-    addMemo() {
+    createMemo() {
       const memo = {
+        id: '',
         title: this.newTitle,
         body: this.newBody,
-        detailFlag: false,
       }
-      this.memos.push(memo)
       this.newTitle = ''
       this.newBody = ''
+      this.$emit('createMemo', memo)
       this.$emit('close')
-    },
+    }
   }
 }
 </script>

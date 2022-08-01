@@ -4,21 +4,20 @@
   <ul>
     <li v-for="(memo, index) in memos" :key="memo.title">
       <span >{{ memo.title }}</span>
-      <span @click="toggleMemoDetailModal(index)" class="command">[DETAIL]</span>
+      <span @click="toggleMemoDetailModalOpen(index)" class="command">[DETAIL]</span>
     </li>
   </ul>
   <div v-if="showNewMemoModal">
     <NewMemoModal
-      :memos="memos"
+      @createMemo="addMemo"
       @close="toggleNewMemoModal"
     />
   </div>
   <div v-if="showMemoDetailModal">
     <MemoDetailModal
-      :memos="memos"
-      @close="toggleMemoDetailModal"
-      @detail="memoDetailFlagOff"
-      @delete="updatedMemos"
+      :memo="memo"
+      @delete="deleteMemo"
+      @close="toggleMemoDetailModalClose"
     />
   </div>
 </template>
@@ -33,6 +32,7 @@ export default {
   data() {
     return {
       memos: [],
+      memo: {},
       showNewMemoModal: false,
       showMemoDetailModal: false
     }
@@ -52,17 +52,36 @@ export default {
     toggleNewMemoModal(){
       this.showNewMemoModal = !this.showNewMemoModal
     },
-    toggleMemoDetailModal(index){
+    toggleMemoDetailModalOpen(index){
+      this.memo.id = this.memos[index].id
+      this.memo.title = this.memos[index].title
+      this.memo.body = this.memos[index].body
       this.showMemoDetailModal = !this.showMemoDetailModal
-      this.memos[index].detailFlag = true
     },
-    memoDetailFlagOff(){
-      this.memos.forEach( memo => memo.detailFlag = false)
+    toggleMemoDetailModalClose(){
+      this.memos.map( (memo) => {
+        if (memo.id === this.memo.id) {
+          memo.title = this.memo.title
+          memo.body = this.memo.body
+        }
+      })
+      this.showMemoDetailModal = !this.showMemoDetailModal
     },
-    updatedMemos(newMemos){
+    deleteMemo(deleteMemoId){
+      const newMemos = this.memos.filter((memo) => memo.id !== deleteMemoId)
       this.memos = newMemos
+    },
+    addMemo(newMemo){
+      if(this.memos.length) {
+        const lastId = Math.max(...this.memos.map((memo) => memo.id))
+        newMemo.id = lastId + 1
+      }
+      else {
+        newMemo.id = 1
+      }
+      this.memos.push(newMemo)
     }
-  }
+  },
 }
 </script>
 
