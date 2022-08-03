@@ -13,7 +13,7 @@
       @close="toggleNewMemoModal"
     />
   </div>
-  <div v-if="showMemoDetailModal">
+  <div v-if="this.memo">
     <MemoDetailModal
       :memo="memo"
       @delete="deleteMemo"
@@ -32,17 +32,8 @@ export default {
   data() {
     return {
       memos: [],
-      memo: {},
+      memo: null,
       showNewMemoModal: false,
-      showMemoDetailModal: false
-    }
-  },
-  watch: {
-    memos: {
-      handler: function () {
-        localStorage.setItem('memos', JSON.stringify(this.memos))
-      },
-      deep: true
     }
   },
   mounted: function () {
@@ -53,10 +44,11 @@ export default {
       this.showNewMemoModal = !this.showNewMemoModal
     },
     toggleMemoDetailModalOpen(index){
-      this.memo.id = this.memos[index].id
-      this.memo.title = this.memos[index].title
-      this.memo.body = this.memos[index].body
-      this.showMemoDetailModal = !this.showMemoDetailModal
+      this.memo = {
+        id: this.memos[index].id,
+        title: this.memos[index].title,
+        body: this.memos[index].body
+      }
     },
     toggleMemoDetailModalClose(){
       this.memos.map( (memo) => {
@@ -65,7 +57,8 @@ export default {
           memo.body = this.memo.body
         }
       })
-      this.showMemoDetailModal = !this.showMemoDetailModal
+      this.saveMemos(this.memos)
+      this.memo = null
     },
     deleteMemo(deleteMemoId){
       const newMemos = this.memos.filter((memo) => memo.id !== deleteMemoId)
@@ -80,8 +73,12 @@ export default {
         newMemo.id = 1
       }
       this.memos.push(newMemo)
+      this.saveMemos(this.memos)
+    },
+    saveMemos(memos){
+      localStorage.setItem('memos', JSON.stringify(memos))
     }
-  },
+  }
 }
 </script>
 
